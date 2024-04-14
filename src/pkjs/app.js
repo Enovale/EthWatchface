@@ -1,6 +1,6 @@
 // bit flyer api
-var URL_BITFLYER = "https://api.bitflyer.jp/v1/ticker";
-var URL_COINBASE = "https://api.coinbase.com/v2/prices/spot?currency=USD";
+var URL_BITFLYER = "https://api.bitflyer.jp/v1/ticker?product_code=ETH_JPY";
+var URL_COINBASE = "https://api.coinbase.com/v2/prices/ETH-USD/spot";
 
 // Require the keys' numeric values.
 var keys = require('message_keys');
@@ -30,10 +30,10 @@ request.onload = function() {
     var dict = {};
     if (currentService == "bitflyer") {
       dict[keys.ltp] = json.ltp.toString();
-      dict[keys.status] = "BTC/JPY";
+      dict[keys.status] = "ETH/JPY";
     } else {
       dict[keys.ltp] = json.data.amount;
-      dict[keys.status] = "BTC/USD";
+      dict[keys.status] = "ETH/USD";
     }
 
     // Send the object

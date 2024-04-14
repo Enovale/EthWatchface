@@ -29,7 +29,9 @@
     "watchapp": {
       "watchface": true
     },
-    "capabilities": [ "configurable" ]
+    "capabilities": [
+      "configurable"
+    ]
   },
   "version": "1.0.0"
 }

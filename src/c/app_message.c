@@ -63,8 +63,13 @@ static void update_time() {
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  refresh();
-  update_time();
+  if (units_changed == MINUTE_UNIT) {
+    update_time();
+  } else if (units_changed == SECOND_UNIT) {
+    if (tick_time->tm_sec == 1 || tick_time->tm_sec == 30) {
+      refresh();
+    }
+  }
 }
 
 // ------------------- window event ----------------------
@@ -82,6 +87,7 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_price_layer, COLOR_BG);
   text_layer_set_text_color(s_price_layer, GColorWhite);
   text_layer_set_text(s_price_layer, "-");
+  text_layer_set_overflow_mode(s_price_layer, GTextOverflowModeWordWrap);
   text_layer_set_font(s_price_layer, fonts_get_system_font(FONT_KEY_LECO_36_BOLD_NUMBERS));
   text_layer_set_text_alignment(s_price_layer, GTextAlignmentCenter);
 
@@ -106,7 +112,7 @@ static void main_window_load(Window *window) {
   layer_add_child(window_layer, text_layer_get_layer(s_title_layer));
 
   // Register with TickTimerService
-  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  tick_timer_service_subscribe(MINUTE_UNIT | SECOND_UNIT, tick_handler);
 }
 
 static void main_window_unload(Window *window) {
